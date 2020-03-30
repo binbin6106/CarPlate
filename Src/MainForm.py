@@ -73,6 +73,7 @@ class MainFormUI(QDialog):
                         print(serial_info)
                 except Exception as e:
                     continue
+            time.sleep(0.1)
 
     def closeEvent(self, event):
         """
