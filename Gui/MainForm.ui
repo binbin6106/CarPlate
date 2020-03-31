@@ -36,6 +36,9 @@
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
+    <property name="placeholderText">
+     <string>接受区域...</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
@@ -112,13 +115,13 @@
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>560</y>
+      <y>500</y>
       <width>181</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>设备状态:未连接</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_5">
@@ -147,8 +150,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>560</y>
+      <x>730</x>
+      <y>520</y>
       <width>54</width>
       <height>12</height>
      </rect>
