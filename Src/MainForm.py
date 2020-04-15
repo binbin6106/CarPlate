@@ -69,10 +69,8 @@ class MainFormUI(QWidget):
         return openfile_name
 
     def start_check(self, file):
-        print(file)
         image = cv2.imread(file)
         image, res = pp.SimpleRecognizePlate(image)
-        print(res[0])
         self.ui.label.setText(res[0])
         self.ui.label.adjustSize()
         check_res = self.sql_tools.check_plate(res[0])
@@ -131,20 +129,21 @@ class MainFormUI(QWidget):
             self.ui.label_2.setText('设备状态:未连接')
 
     def open_the_door(self):
-        self.ser_config.send_mess(b'1')
+        data = b'\xff'
+        self.ser_config.send_mess(data)
 
     def take_photo(self):
         if self.taken_photo_flag:
             self.taken_photo_flag = 0
             cap = cv2.VideoCapture(0)
             success, img = cap.read()
+            cap.release()
             frame = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
             show_img = QImage(frame.data, frame.shape[1], frame.shape[0], QImage.Format_RGB888)
             self.ui.label_4.setPixmap(QPixmap.fromImage(show_img))
             if success:
                 time.sleep(1)
                 cv2.imwrite("image2.jpg", img)
-                cap.release()
                 self.start_check('image2.jpg')
 
     def update_serial_info(self):
@@ -153,8 +152,9 @@ class MainFormUI(QWidget):
                 try:
                     serial_info = self.ser_config.recieve_mess()
                     if serial_info != '':
-                        rec_mess = (str(serial_info, encoding='utf-8'))
-                        if rec_mess == '1':  # 下位机发来拍照信号
+                        # rec_mess = (str(serial_info, encoding='utf-8'))
+                        hex2str = [hex(x) for x in bytes(serial_info)][0]
+                        if hex2str == '0xff':  # 下位机发来拍照信号
                             if self.taken_photo_flag == 0:
                                 # self.take_photo()
                                 self.taken_photo_flag = 1
