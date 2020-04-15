@@ -9,7 +9,6 @@ PyInstaller==3.6
 pyserial==3.4
 PySide2==5.14.1
 PyYAML==5.3.1
-qtconsole==4.7.1
 QtPy==1.9.0
 requests==2.23.0
 scikit-image==0.15.0
@@ -19,4 +18,3 @@ six==1.14.0
 sklearn==0.0
 tensorboard==1.12.2
 tensorflow==1.12.0
-urllib3==1.25.8
