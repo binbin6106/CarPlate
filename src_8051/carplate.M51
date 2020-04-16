@@ -1,0 +1,343 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/16/2020  18:00:42  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE carplate.obj TO carplate
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  carplate.obj (CARPLATE)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  carplate (CARPLATE)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            REG     0008H     0008H     ABSOLUTE     "REG BANK 1"
+            DATA    0010H     0002H     UNIT         ?DT?CARPLATE
+            DATA    0012H     0001H     UNIT         _DATA_GROUP_
+                    0013H     000DH                  *** GAP ***
+            BIT     0020H.0   0000H.3   UNIT         ?BI?CARPLATE
+                    0020H.3   0000H.5                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+                    0006H     0005H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     0005H                  *** GAP ***
+            CODE    0013H     0003H     ABSOLUTE     
+                    0016H     000DH                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+                    0026H     07DAH                  *** GAP ***
+            CODE    0800H     0030H     UNIT         ?PR?TIM0?CARPLATE
+            CODE    0830H     002CH     UNIT         ?PR?UART_INTERRUPT?CARPLATE
+            CODE    085CH     0027H     UNIT         ?PR?_JUDGE?CARPLATE
+            CODE    0883H     0017H     UNIT         ?PR?MAIN?CARPLATE
+            CODE    089AH     0017H     UNIT         ?PR?EXT0_INTERRUPT?CARPLATE
+            CODE    08B1H     0011H     UNIT         ?PR?UARTINIT?CARPLATE
+            CODE    08C2H     000CH     UNIT         ?C_C51STARTUP
+            CODE    08CEH     000AH     UNIT         ?PR?PWM_INIT?CARPLATE
+            CODE    08D8H     0009H     UNIT         ?PR?INIT_EXTERNAL_INTERRUPT?CARPLATE
+            CODE    08E1H     0008H     UNIT         ?PR?START_WORK?CARPLATE
+            CODE    08E9H     0008H     UNIT         ?PR?_SENDDATA?CARPLATE
+            CODE    08F1H     0007H     UNIT         ?PR?EXT1_INTERRUPT?CARPLATE
+            CODE    08F8H     0005H     UNIT         ?PR?MANUAL_OPEN?CARPLATE
+            CODE    08FDH     0005H     UNIT         ?PR?ALAWYS_OPEN?CARPLATE
+            CODE    0902H     0004H     UNIT         ?PR?OPEN_THE_DOOR?CARPLATE
+            CODE    0906H     0004H     UNIT         ?PR?CLOSE_THE_DOOR?CARPLATE
+            CODE    090AH     0003H     UNIT         ?PR?STOP_WORK?CARPLATE
+
+
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/16/2020  18:00:42  PAGE 2
+
+
+OVERLAY MAP OF MODULE:   carplate (CARPLATE)
+
+
+SEGMENT                                        DATA_GROUP 
+  +--> CALLED SEGMENT                        START    LENGTH
+------------------------------------------------------------
+?PR?UART_INTERRUPT?CARPLATE                  0012H    0001H
+  +--> ?PR?_JUDGE?CARPLATE
+
+?PR?_JUDGE?CARPLATE                          -----    -----
+  +--> ?PR?OPEN_THE_DOOR?CARPLATE
+  +--> ?PR?CLOSE_THE_DOOR?CARPLATE
+  +--> ?PR?START_WORK?CARPLATE
+  +--> ?PR?STOP_WORK?CARPLATE
+  +--> ?PR?MANUAL_OPEN?CARPLATE
+  +--> ?PR?ALAWYS_OPEN?CARPLATE
+
+?PR?START_WORK?CARPLATE                      -----    -----
+  +--> ?PR?CLOSE_THE_DOOR?CARPLATE
+
+?PR?MANUAL_OPEN?CARPLATE                     -----    -----
+  +--> ?PR?OPEN_THE_DOOR?CARPLATE
+
+?PR?ALAWYS_OPEN?CARPLATE                     -----    -----
+  +--> ?PR?OPEN_THE_DOOR?CARPLATE
+
+*** NEW ROOT ***************************************************
+
+?PR?EXT0_INTERRUPT?CARPLATE                  -----    -----
+  +--> ?PR?_SENDDATA?CARPLATE
+
+*** NEW ROOT ***************************************************
+
+?PR?EXT1_INTERRUPT?CARPLATE                  -----    -----
+  +--> ?PR?CLOSE_THE_DOOR?CARPLATE
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                                -----    -----
+  +--> ?PR?MAIN?CARPLATE
+
+?PR?MAIN?CARPLATE                            -----    -----
+  +--> ?PR?INIT_EXTERNAL_INTERRUPT?CARPLATE
+  +--> ?PR?UARTINIT?CARPLATE
+  +--> ?PR?PWM_INIT?CARPLATE
+  +--> ?PR?CLOSE_THE_DOOR?CARPLATE
+
+
+
+SYMBOL TABLE OF MODULE:  carplate (CARPLATE)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        CARPLATE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/16/2020  18:00:42  PAGE 3
+
+
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  B:0020H.0       PUBLIC        is_work
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  B:00A8H.7       PUBLIC        EA
+  C:08E9H         PUBLIC        _SendData
+  B:0020H.1       PUBLIC        manual_mode
+  D:00A8H         PUBLIC        IE
+  C:085CH         PUBLIC        _judge
+  C:08F8H         PUBLIC        manual_open
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  C:0883H         PUBLIC        main
+  C:08FDH         PUBLIC        alawys_open
+  D:0010H         PUBLIC        time
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  C:08B1H         PUBLIC        UartInit
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:0011H         PUBLIC        gan
+  B:0020H.2       PUBLIC        busy
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  D:008DH         PUBLIC        TH1
+  B:00A8H.2       PUBLIC        EX1
+  B:0088H.2       PUBLIC        IT1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  C:0906H         PUBLIC        close_the_door
+  C:08D8H         PUBLIC        init_external_interrupt
+  B:0088H.4       PUBLIC        TR0
+  C:089AH         PUBLIC        ext0_interrupt
+  C:08E1H         PUBLIC        start_work
+  B:0088H.6       PUBLIC        TR1
+  C:08F1H         PUBLIC        ext1_interrupt
+  D:00C8H         PUBLIC        T2CON
+  C:08CEH         PUBLIC        pwm_init
+  C:090AH         PUBLIC        stop_work
+  C:0902H         PUBLIC        open_the_door
+  C:0830H         PUBLIC        Uart_interrupt
+  B:0090H.1       PUBLIC        PWM
+  D:00D0H         PUBLIC        PSW
+  C:0800H         PUBLIC        tim0
+  -------         PROC          INIT_EXTERNAL_INTERRUPT
+  C:08D8H         LINE#         21
+  C:08D8H         LINE#         22
+  C:08D8H         LINE#         23
+  C:08DAH         LINE#         24
+  C:08DCH         LINE#         25
+  C:08DEH         LINE#         26
+  C:08E0H         LINE#         27
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/16/2020  18:00:42  PAGE 4
+
+
+  -------         ENDPROC       INIT_EXTERNAL_INTERRUPT
+  -------         PROC          UARTINIT
+  C:08B1H         LINE#         29
+  C:08B1H         LINE#         30
+  C:08B1H         LINE#         31
+  C:08B4H         LINE#         32
+  C:08B7H         LINE#         33
+  C:08BDH         LINE#         34
+  C:08BFH         LINE#         35
+  C:08C1H         LINE#         36
+  -------         ENDPROC       UARTINIT
+  -------         PROC          PWM_INIT
+  C:08CEH         LINE#         38
+  C:08CEH         LINE#         39
+  C:08CEH         LINE#         40
+  C:08D1H         LINE#         41
+  C:08D4H         LINE#         42
+  C:08D7H         LINE#         45
+  -------         ENDPROC       PWM_INIT
+  -------         PROC          _JUDGE
+  D:0007H         SYMBOL        dat
+  C:085CH         LINE#         47
+  C:085CH         LINE#         48
+  C:085CH         LINE#         49
+  C:0870H         LINE#         50
+  C:0870H         LINE#         51
+  C:0873H         LINE#         52
+  C:0876H         LINE#         53
+  C:0879H         LINE#         54
+  C:087CH         LINE#         55
+  C:087FH         LINE#         56
+  C:0882H         LINE#         57
+  C:0882H         LINE#         58
+  C:0882H         LINE#         59
+  -------         ENDPROC       _JUDGE
+  -------         PROC          OPEN_THE_DOOR
+  C:0902H         LINE#         60
+  C:0902H         LINE#         61
+  C:0902H         LINE#         62
+  C:0905H         LINE#         63
+  -------         ENDPROC       OPEN_THE_DOOR
+  -------         PROC          CLOSE_THE_DOOR
+  C:0906H         LINE#         65
+  C:0906H         LINE#         66
+  C:0906H         LINE#         67
+  C:0909H         LINE#         68
+  -------         ENDPROC       CLOSE_THE_DOOR
+  -------         PROC          START_WORK
+  C:08E1H         LINE#         70
+  C:08E1H         LINE#         71
+  C:08E1H         LINE#         72
+  C:08E4H         LINE#         73
+  C:08E6H         LINE#         74
+  C:08E8H         LINE#         75
+  -------         ENDPROC       START_WORK
+  -------         PROC          STOP_WORK
+  C:090AH         LINE#         77
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/16/2020  18:00:42  PAGE 5
+
+
+  C:090AH         LINE#         78
+  C:090AH         LINE#         79
+  C:090CH         LINE#         80
+  -------         ENDPROC       STOP_WORK
+  -------         PROC          MANUAL_OPEN
+  C:08F8H         LINE#         82
+  C:08F8H         LINE#         83
+  C:08F8H         LINE#         84
+  C:08FAH         LINE#         85
+  -------         ENDPROC       MANUAL_OPEN
+  -------         PROC          ALAWYS_OPEN
+  C:08FDH         LINE#         93
+  C:08FDH         LINE#         94
+  C:08FDH         LINE#         95
+  C:08FFH         LINE#         96
+  -------         ENDPROC       ALAWYS_OPEN
+  -------         PROC          _SENDDATA
+  D:0007H         SYMBOL        dat
+  C:08E9H         LINE#         99
+  C:08E9H         LINE#         100
+  C:08E9H         LINE#         101
+  C:08ECH         LINE#         102
+  C:08EEH         LINE#         103
+  C:08F0H         LINE#         104
+  -------         ENDPROC       _SENDDATA
+  -------         PROC          MAIN
+  C:0883H         LINE#         114
+  C:0883H         LINE#         115
+  C:0883H         LINE#         116
+  C:0886H         LINE#         117
+  C:0889H         LINE#         118
+  C:088CH         LINE#         120
+  C:088FH         LINE#         121
+  C:0891H         LINE#         122
+  C:0893H         LINE#         123
+  C:0895H         LINE#         124
+  C:0898H         LINE#         125
+  C:0898H         LINE#         126
+  C:0898H         LINE#         127
+  -------         ENDPROC       MAIN
+  -------         PROC          TIM0
+  C:0800H         LINE#         131
+  C:0804H         LINE#         133
+  C:0806H         LINE#         134
+  C:0809H         LINE#         135
+  C:080CH         LINE#         138
+  C:080EH         LINE#         139
+  C:0810H         LINE#         140
+  C:081BH         LINE#         141
+  C:081EH         LINE#         142
+  C:0825H         LINE#         143
+  C:0829H         LINE#         145
+  C:082BH         LINE#         146
+  -------         ENDPROC       TIM0
+  -------         PROC          UART_INTERRUPT
+  -------         DO            
+  D:0012H         SYMBOL        dat
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/16/2020  18:00:42  PAGE 6
+
+
+  -------         ENDDO         
+  C:0830H         LINE#         148
+  C:083DH         LINE#         150
+  C:0840H         LINE#         151
+  C:0840H         LINE#         153
+  C:0842H         LINE#         154
+  C:0845H         LINE#         155
+  C:084AH         LINE#         156
+  C:084AH         LINE#         157
+  C:084DH         LINE#         158
+  C:084DH         LINE#         159
+  C:084FH         LINE#         160
+  C:0851H         LINE#         161
+  C:0851H         LINE#         162
+  -------         ENDPROC       UART_INTERRUPT
+  -------         PROC          EXT0_INTERRUPT
+  C:089AH         LINE#         163
+  C:08A1H         LINE#         165
+  C:08A7H         LINE#         166
+  C:08A7H         LINE#         167
+  C:08ACH         LINE#         168
+  C:08ACH         LINE#         169
+  -------         ENDPROC       EXT0_INTERRUPT
+  -------         PROC          EXT1_INTERRUPT
+  C:08F1H         LINE#         171
+  C:08F1H         LINE#         173
+  C:08F4H         LINE#         174
+  C:08F4H         LINE#         175
+  C:08F7H         LINE#         176
+  C:08F7H         LINE#         177
+  -------         ENDPROC       EXT1_INTERRUPT
+  -------         ENDMOD        CARPLATE
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 010DH BYTE (13%) *
+******************************************************************************
+
+Program Size: data=20.3 xdata=0 code=284
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

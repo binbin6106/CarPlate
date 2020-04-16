@@ -33,7 +33,7 @@
      <enum>Qt::ScrollBarAlwaysOn</enum>
     </property>
     <property name="placeholderText">
-     <string>接受区域...</string>
+     <string>显示区域...</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
@@ -46,7 +46,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>开始</string>
+     <string>自动检测</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -59,7 +59,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>停止</string>
+     <string>停止检测</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -76,6 +76,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>460</x>
@@ -85,7 +88,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>手动落杆</string>
+     <string>常抬杆</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -132,7 +135,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>测试用</string>
+     <string>test</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">

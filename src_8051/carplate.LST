@@ -1,0 +1,206 @@
+C51 COMPILER V9.01   CARPLATE                                                              04/16/2020 18:00:42 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE CARPLATE
+OBJECT MODULE PLACED IN carplate.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE carplate.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <intrins.h>
+   2          #include "stc89c52rc.h"
+   3          typedef unsigned char uchar;
+   4          #define FOSC 11059200L
+   5          #define BAUD 9600
+   6          bit busy;
+   7          bit is_work;
+   8          bit manual_mode;
+   9          sbit PWM = P1^1;
+  10          uchar time;
+  11          uchar gan;
+  12          
+  13          void open_the_door();
+  14          void close_the_door();
+  15          void stop_work();
+  16          void start_work();
+  17          void manual_open();
+  18          void manual_close();
+  19          void alawys_open();
+  20          
+  21          void init_external_interrupt() //外部中断相关寄存器初始化函数
+  22          {
+  23   1              IT0 = 1;
+  24   1              IT1 = 1; //定义外部中断方式均为下降沿触发       
+  25   1              EX0 = 1;
+  26   1              EX1 = 1; //允许0，1外部中断
+  27   1      }
+  28          
+  29          void UartInit(void)             //9600bps@11.0592MHz
+  30          {
+  31   1              SCON = 0x50;            //8位数据,可变波特率
+  32   1              TMOD = 0x20;            //设定定时器1为8位自动重装方式
+  33   1              TL1 = TH1 = -(FOSC/12/32/BAUD);
+  34   1              TR1 = 1;                //启动定时器1
+  35   1              ES = 1;
+  36   1      }
+  37          
+  38          void pwm_init()
+  39          {       
+  40   1              TMOD=0x21;//定时器0工作方式1     
+  41   1              TH0=(65536-46)/256;//赋初值定时  
+  42   1              TL0=(65536-46)%256;//1ms
+  43   1      //      TL0 = 0x5C;             //设置定时初值
+  44   1      //      TH0 = 0xF7;             //设置定时初值  
+  45   1      }
+  46          
+  47          void judge(uchar dat)
+  48          {
+  49   1              switch(dat)
+  50   1              {
+  51   2                      case 0x00: open_the_door();break;
+  52   2                      case 0x01: close_the_door();break;
+  53   2                      case 0x02: start_work();break;
+  54   2                      case 0x03: stop_work();break;
+  55   2                      case 0x04: manual_open();break;
+C51 COMPILER V9.01   CARPLATE                                                              04/16/2020 18:00:42 PAGE 2   
+
+  56   2                      case 0x05: alawys_open();break;
+  57   2                      default: break;
+  58   2              }
+  59   1      }
+  60          void open_the_door()
+  61          {
+  62   1              gan = 21;
+  63   1      }
+  64          
+  65          void close_the_door()
+  66          {
+  67   1              gan = 29;
+  68   1      }
+  69          
+  70          void start_work()
+  71          {
+  72   1              close_the_door();
+  73   1              is_work = 1;
+  74   1              manual_mode = 0;
+  75   1      }
+  76          
+  77          void stop_work()
+  78          {
+  79   1              is_work = 0;
+  80   1      }
+  81          
+  82          void manual_open()
+  83          {
+  84   1              manual_mode = 1;
+  85   1              open_the_door();        
+  86   1      }
+  87          
+  88          //void manual_close()
+  89          //{
+  90          //      close_the_door();       
+  91          //}
+  92          
+  93          void alawys_open()
+  94          {
+  95   1              is_work = 0;
+  96   1              open_the_door();
+  97   1      }
+  98          
+  99          void SendData(uchar dat)
+ 100          {
+ 101   1              while(busy);
+ 102   1              busy = 1;
+ 103   1              SBUF = dat;
+ 104   1      }
+ 105          
+ 106          //void SendString(char *s)
+ 107          //{
+ 108          //      while(*s)
+ 109          //      {
+ 110          //              SendData(*s++);
+ 111          //      }
+ 112          //}
+ 113          
+ 114          void main()
+ 115          {
+ 116   1              init_external_interrupt();
+ 117   1              UartInit();
+C51 COMPILER V9.01   CARPLATE                                                              04/16/2020 18:00:42 PAGE 3   
+
+ 118   1              pwm_init();
+ 119   1              //IPH = 0x12;
+ 120   1              IP = 0x15;
+ 121   1              EA = 1; //允许总中断
+ 122   1              ET0=1;//开定时器0中断 
+ 123   1              TR0=1;//启动定时器0
+ 124   1              close_the_door();
+ 125   1              while(1)
+ 126   1              {
+ 127   2              }       
+ 128   1      }
+ 129          
+ 130          
+ 131          void tim0() interrupt 1
+ 132          {
+ 133   1              TR0=0;//赋初值时，关闭定时器 
+ 134   1              TH0=(65536-46)/256;//赋初值定时  
+ 135   1              TL0=(65536-46)%256;//0.2ms 
+ 136   1      //      TL0 = 0x5C;             //设置定时初值
+ 137   1      //      TH0 = 0xF7;             //设置定时初值
+ 138   1              TR0=1;//打开定时器  
+ 139   1              time++; 
+ 140   1              if(time>=400) //50hz 
+ 141   1                      time=0; 
+ 142   1              if(time<=gan) //占空比抬杆21，落杆29
+ 143   1                      PWM=1; 
+ 144   1              else 
+ 145   1                      PWM=0; 
+ 146   1      }
+ 147           
+ 148          void Uart_interrupt() interrupt 4 using 1
+ 149          {
+ 150   1              if(RI) //接收触发中断
+ 151   1              {
+ 152   2                 uchar dat;
+ 153   2                 RI = 0;
+ 154   2                 dat = SBUF;
+ 155   2                 judge(dat);
+ 156   2              }
+ 157   1              if(TI) //发送触发中断
+ 158   1              {
+ 159   2                 TI = 0;
+ 160   2                 busy = 0;
+ 161   2              }
+ 162   1      }
+ 163          void ext0_interrupt() interrupt 0 //定义外部中断0触发函数，即检测到车抬杆
+ 164          {
+ 165   1              if(is_work && !manual_mode)
+ 166   1              {
+ 167   2                      SendData(0xff);
+ 168   2              }
+ 169   1      }
+ 170          
+ 171          void ext1_interrupt() interrupt 2 //定义外部中断1触发函数，即检测到车离开
+ 172          {
+ 173   1              if(is_work)
+ 174   1              {
+ 175   2                      close_the_door();
+ 176   2              }
+ 177   1      }
+
+
+C51 COMPILER V9.01   CARPLATE                                                              04/16/2020 18:00:42 PAGE 4   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    257    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
